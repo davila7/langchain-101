@@ -31,6 +31,7 @@ Guía de estudio para aprender Langchain:
 Crea el archivo .env y agrega tu API Key de OpenAI y Serpapi API Key
 
 `OPENAI_API_KEY=TU_API_KEY`
+
 `SERPAPI_API_KEY`
 
 
