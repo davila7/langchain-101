@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
+from langchain.chains import LLMChain
 import os
 
 # cargamos openai api key
@@ -15,6 +16,7 @@ prompt = PromptTemplate(
     template="Hola cómo estás? mi nombre es {name}",
 )
 
-# mismo template, diferente variables
-print(llm(prompt.format(name="Daniel")))
-print(llm(prompt.format(name="José")))
+# creamos una chain
+chain = LLMChain(llm=llm, prompt=prompt)
+
+print(chain.run("Fernando"))
