@@ -37,7 +37,9 @@ Crea el archivo .env y agrega tu API Key de OpenAI y Serpapi API Key
 
 ## Ejecuta los archivo
 
-`python llm_app.py`
+Una vez que tengas todo configurado, para ejecutar un archivo solo debes correr el siguiente comando, cambiando el nombre de cada archibo:
+
+`python 1_llm_app.py`
 
 # Fuentes
 
