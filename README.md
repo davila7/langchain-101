@@ -12,6 +12,7 @@ Guía de estudio para aprender Langchain:
 - 3_manage_prompt_template.py: Ejecuta un mismo PromptTemplate con diferentes variables
 - 4_chain.py: Crea una cadena (chain)
 - 5_agents: Crea un agente (agent) 
+- 6_memory: Simula una conversación y guarda en memoria el input del usuario
 
 # 
 
