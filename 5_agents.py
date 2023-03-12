@@ -25,6 +25,6 @@ tools = load_tools(["serpapi", "llm-math"], llm=llm)
 agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
 
 # ejecutamos el agente
-agent.run("¿Quién ganó el mundial de Qatar?")
+agent.run("¿Por qué quebró Silicon Valley Bank?")
 
 
