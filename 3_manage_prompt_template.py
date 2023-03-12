@@ -15,6 +15,12 @@ prompt = PromptTemplate(
     template="Hola cómo estás? mi nombre es {name}",
 )
 
-# mismo template, diferente variables
+# usamos el mismo template con diferentes variables
+
+# ejemplo con variable name = Daniel
+print(prompt.format(name="Daniel"))
 print(llm(prompt.format(name="Daniel")))
+
+# ejemplo con variable name = José
+print(prompt.format(name="José"))
 print(llm(prompt.format(name="José")))

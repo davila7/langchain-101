@@ -1,6 +1,6 @@
 # Aprendiendo Langchain
 
-Tutoriales paso a paso para aprender Langchain con Python
+Tutoriales paso a paso para aprender Langchain con Python en Español
 
 # Installation
 

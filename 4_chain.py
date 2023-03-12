@@ -16,7 +16,8 @@ prompt = PromptTemplate(
     template="Hola cómo estás? mi nombre es {name}",
 )
 
-# creamos una chain
+# creamos una chain y le entregamos como parámetro el modelo y el prompt template
 chain = LLMChain(llm=llm, prompt=prompt)
 
+# ejecutamos la cadena con el parametro name = Fernando
 print(chain.run("Fernando"))
