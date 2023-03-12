@@ -2,6 +2,8 @@
 
 Tutoriales paso a paso para aprender Langchain con Python en Español
 
+<img width="843" alt="Captura de Pantalla 2023-03-12 a la(s) 5 37 07 p  m" src="https://user-images.githubusercontent.com/6216945/224575138-a1c3e3ad-0831-4717-aae2-ed185f96411d.png">
+
 # Indice
 Guía de estudio para aprender Langchain:
 
