@@ -16,11 +16,20 @@ Guía de estudio para aprender Langchain:
 - 5_agents: Crea un agente (agent) 
 - 6_memory: Simula una conversación y guarda en memoria el input del usuario
 
-# 
+## Modelos
 
-# Installation
+- 7_openai_model.py: Carga del modelo gpt-3.5-turbo de OpenAI
+- 8_cohere_model.py: Carga del modelo command-xlarge-nigthtly de Cohere
+- 9_ai21_model.py: Carga del modelo j1-grande-instruct de AI21
+- 10_huggingface_model.py: Carga del modelo flan-t5-xl de Google
 
-## Instala los package 
+## Embeddgins y búsquedas semánticas
+
+- En proceso...
+
+# Instalación
+
+Ejecuta estos comandos para instalar las librerías necesarias de la guía de estudio
 
 `pip install lanchain`
 
@@ -28,16 +37,11 @@ Guía de estudio para aprender Langchain:
 
 `pip install google-search-results`
 
-## Configura tu .env
-
 Crea el archivo .env y agrega tu API Key de OpenAI y Serpapi API Key
 
 `OPENAI_API_KEY=TU_API_KEY`
 
 `SERPAPI_API_KEY`
-
-
-## Ejecuta los archivo
 
 Una vez que tengas todo configurado, para ejecutar un archivo solo debes correr el siguiente comando, cambiando el nombre de cada archibo:
 

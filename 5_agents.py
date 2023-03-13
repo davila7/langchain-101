@@ -14,7 +14,7 @@ os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 llm = OpenAI(temperature=0.9)
 
 # cargamos dos tools
-tools = load_tools(["serpapi", "llm-math"], llm=llm)
+tools = load_tools(["serpapi"], llm=llm)
 
 # iniciamos un agent con los tools que necesitamos ejecutar
 # 1- Tools
