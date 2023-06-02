@@ -9,6 +9,7 @@ Guía de estudio para aprender Langchain:
 
 ### LLM:
 - llm_app.py: Carga un modelo con Langchain
+- output_generation.py: Generamos varios resultados de llamadas a OpenAI
 
 ### Prompt Templates
 - prompt_template.py: Crea un PromptTemplate con variables
