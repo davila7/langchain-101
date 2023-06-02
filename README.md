@@ -26,7 +26,7 @@ Guía de estudio para aprender Langchain:
 - En proceso...
 
 ### Indexes
-- En proceso...
+- pdf_splitter.py: Cargamos un pdf
   
 ### Chains
 - chain.py: Creamos un template y lo asignamos a un chain
