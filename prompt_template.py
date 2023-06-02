@@ -3,6 +3,15 @@ from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
 import os
 
+"""
+2.- Prompt Template
+
+En este archivo cargamos un template con variables que se entregan mediante inputs.
+Luego de crear el template podemos mostrar enviar la variable con format() y visualizar el template
+antes de enviarlo a la API
+
+"""
+
 # cargamos openai api key
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -18,13 +27,6 @@ prompt = PromptTemplate(
 
 # entregamos la variable name al prompt
 print(prompt.format(name="Daniel"))
+
 # cargamos dentro del modelo el prompt con la variable como parametro
-#print(llm(prompt.format(name="Daniel")))
-
-
-# En este ejemplo pasamos multiples variables al template
-multiple_input_prompt = PromptTemplate(
-    input_variables=["time", "name"], 
-    template="Hola buenos {time}, mi nombre es {name}."
-)
-print(multiple_input_prompt.format(time="noches", name="José"))
+print(llm(prompt.format(name="Daniel")))

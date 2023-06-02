@@ -11,7 +11,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
-llm = OpenAI(temperature=0.9)
+llm = OpenAI(temperature=0.3)
 
 # cargamos dos tools
 tools = load_tools(["serpapi"], llm=llm)
@@ -25,6 +25,6 @@ tools = load_tools(["serpapi"], llm=llm)
 agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
 
 # ejecutamos el agente
-agent.run("¿Por qué quebró Silicon Valley Bank?")
+print(agent.run("Why was a letter signed to stop the development of LLM models like GPT-4 for 6 months?"))
 
 

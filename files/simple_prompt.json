@@ -1,0 +1,5 @@
+{
+    "_type": "prompt",
+    "input_variables": ["name", "time"],
+    "template": "Hola {name}, buenas {time}."
+}

@@ -1,0 +1,10 @@
+python-dotenv
+langchain
+openai
+google-api-python-client # Google API
+google-search-results # SerpAPI
+youtube-transcript-api
+chromadb
+tiktoken
+faiss-cpu
+wikipedia

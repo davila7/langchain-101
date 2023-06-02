@@ -4,19 +4,29 @@ from langchain.llms import OpenAI
 from langchain.chains import LLMChain
 import os
 
+"""
+
+ Chains init
+
+
+"""
+
+
 # cargamos openai api key
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
+# cargamos el modelo
 llm = OpenAI(temperature=0.9)
 
+# creamos el template
 prompt = PromptTemplate(
     input_variables=["name"],
     template="Hola cómo estás? mi nombre es {name}",
 )
 
-# creamos una chain y le entregamos como parámetro el modelo y el prompt template
+# creamos un chain y le entregamos como parámetro el modelo y el prompt template
 chain = LLMChain(llm=llm, prompt=prompt)
 
 # ejecutamos la cadena con el parametro name = Fernando
