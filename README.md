@@ -23,7 +23,8 @@ Guía de estudio para aprender Langchain:
 - En proceso...
 
 ### Memory
-- En proceso...
+- chain_memory.py: Agregamos memoria a una cadena simple usando ConversationChain
+- chat_message_history.py: Usamos ChatMessageHistory para ir guardando el historial de mensajes de los usuarios
 
 ### Indexes
 - pdf_splitter.py: Cargamos un pdf

@@ -4,6 +4,12 @@ from dotenv import load_dotenv
 from langchain import OpenAI, ConversationChain
 import os
 
+'''
+
+En esta archivo agregaremos memoria al llm usando una cadena simple usando ConversationChain
+
+'''
+
 # cargamos openai api key
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
