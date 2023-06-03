@@ -6,8 +6,7 @@ import os
 
 """
 
- Chains init
-
+En este archivo creamos un template y luego ejecutamos una simple cadena con LLMChain
 
 """
 
