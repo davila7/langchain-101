@@ -7,6 +7,8 @@ import os
 HuggingFace falcon
 
 """
+# cargamos apikey
+load_dotenv()
 
 template = """Question: {question}
 

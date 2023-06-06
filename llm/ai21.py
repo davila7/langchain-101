@@ -9,8 +9,7 @@ AI21
 
 # cargamos apikey
 load_dotenv()
-AI21_API_KEY = os.getenv("AI21_API_KEY")
-llm = AI21(ai21_api_key=AI21_API_KEY)
+llm = AI21(temperature=0.9)
 
 # entregamos la variable text como variable al modelo
 text = "Hola cómo estás?"

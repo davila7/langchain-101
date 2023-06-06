@@ -1,11 +1,9 @@
 from dotenv import load_dotenv
 from langchain import OpenAI
-import os
+
 
 # cargamos openai api key
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # cargamos el modelo text-ada-001 con dos respuesta y que seleccione 1
 llm = OpenAI(model_name="text-ada-001", n=2, best_of=2)

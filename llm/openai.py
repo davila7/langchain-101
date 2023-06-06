@@ -1,6 +1,5 @@
 from dotenv import load_dotenv
 from langchain.llms import OpenAI
-import os
 
 """
 1.- LLM App
@@ -13,8 +12,6 @@ le pasamos un texto al llm para que se haga el llamado a la API de OpenAI
 
 # cargamos openai api key
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # creamos el modelo con temperatura 0.9
 llm = OpenAI(temperature=0.9)
