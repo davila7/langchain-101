@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from langchain.llms import OpenAI
+import os
 
 """
 1.- LLM App
