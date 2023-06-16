@@ -1,13 +1,14 @@
 from dotenv import load_dotenv
 from langchain import HuggingFaceHub
 from langchain import PromptTemplate, LLMChain
-import os
 
 """
-HuggingFace falcon
-
+HuggingFace:
+ tiiuae/falcon-7b-instruct
+ google/flan-t5-xxl
 """
-# cargamos apikey
+
+# Huggingface API KEY
 load_dotenv()
 
 template = """Question: {question}
@@ -19,5 +20,5 @@ llm_chain = LLMChain(prompt=prompt, llm=llm)
 
 question = "Who won the FIFA World Cup in the year 1998?"
 print(question)
-print('Falcon: ', llm_chain.run(question))
+print('Bot: ', llm_chain.run(question))
 
