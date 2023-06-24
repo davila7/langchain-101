@@ -15,7 +15,7 @@ le pasamos un texto al llm para que se haga el llamado a la API de OpenAI
 load_dotenv()
 
 # creamos el modelo con temperatura 0.9
-llm = OpenAI(temperature=0.9)
+llm = OpenAI(temperature=0.1)
 
 # entregamos la variable text como variable al modelo
 text = "Hola cómo estás?"

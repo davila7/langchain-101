@@ -15,6 +15,7 @@ messages = [
     SystemMessage(content="Eres un experto en la historia del futbol"),
     HumanMessage(content="Quién ganó la copa del mundo de Francia 98?")
 ]
+print(messages)
 response = chat(messages)
 
 print(response)

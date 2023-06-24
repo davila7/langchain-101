@@ -10,3 +10,4 @@ faiss-cpu
 wikipedia
 cohere
 streamlit_chat
+chainlit
