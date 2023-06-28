@@ -11,3 +11,5 @@ wikipedia
 cohere
 streamlit_chat
 chainlit
+git+https://github.com/openai/whisper.git
+judini

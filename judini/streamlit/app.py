@@ -59,8 +59,6 @@ def generate_response(prompt):
             if raw_data != "[DONE]":
                 try:
                     json_object = json.loads(raw_data.strip())
-                    print()
-                    json_object = json.loads(raw_data.strip())
                     token += json_object['data']
                 except json.JSONDecodeError as e:
                     print(f"Error al cargar el JSON: {e}")
