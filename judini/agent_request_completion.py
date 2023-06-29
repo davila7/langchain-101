@@ -4,20 +4,13 @@ from langchain.llms import OpenAI
 import os
 import requests
 import json
-
-"""
-2.- Prompt Template
-
-En este archivo cargamos un template con variables que se entregan mediante inputs.
-Luego de crear el template podemos mostrar enviar la variable con format() y visualizar el template
-antes de enviarlo a la API
-
-"""
-
-# cargamos openai api key
+from dotenv import load_dotenv
+from judini.agent import Agent
 load_dotenv()
 
-llm = OpenAI(temperature=0.9)
+"""
+ Prompt Template con Judini
+"""
 
 # prompt template con una variables
 prompt = PromptTemplate(
@@ -26,10 +19,10 @@ prompt = PromptTemplate(
 )
 
 #Judini
-judini_api_key= os.getenv("JUDINI_API_KEY")
+api_key= os.getenv("JUDINI_API_KEY")
 agent_id= os.getenv("JUDINI_AGENT_ID")
 url = 'https://playground.judini.ai/api/v1/agent/'+agent_id
-headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer "+judini_api_key}
+headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer "+api_key}
 data = {
     "messages": [
         {

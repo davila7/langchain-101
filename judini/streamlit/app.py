@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import requests
 import json
+from judini.agent import Agent
 load_dotenv()
 
 # Setting page title and header
@@ -32,37 +33,17 @@ if clear_button:
         {"role": "system", "content": "You are a helpful assistant."}
     ]
 
-#Judini
-judini_api_key= os.getenv("JUDINI_API_KEY")
-agent_id= os.getenv("JUDINI_AGENT_ID")
-url = 'https://playground.judini.ai/api/v1/agent/'+agent_id
-headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer "+judini_api_key}
-
-
 # generate a response
 def generate_response(prompt):
     st.session_state['messages'].append({"role": "user", "content": prompt})
 
-    data = {
-        "messages": [
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    }
-    response = requests.post(url, headers=headers, json=data, stream=True)
-    token = ''
-    for chunk in response.iter_content(chunk_size=1024):
-        if chunk:
-            raw_data = chunk.decode('utf-8').replace("data: ", '')
-            if raw_data != "[DONE]":
-                try:
-                    json_object = json.loads(raw_data.strip())
-                    token += json_object['data']
-                except json.JSONDecodeError as e:
-                    print(f"Error al cargar el JSON: {e}")
-    response = token
+    api_key= os.getenv("JUDINI_API_KEY")
+    agent_id= os.getenv("JUDINI_AGENT_ID")
+
+    agent = Agent(api_key, agent_id)
+
+    prompt = 'Hola, cómo estás?'
+    response = agent.completion(prompt)
     st.session_state['messages'].append({"role": "assistant", "content": response})
 
     # print(st.session_state['messages'])

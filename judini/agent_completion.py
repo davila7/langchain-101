@@ -1,10 +1,14 @@
 from judini.agent import Agent
+import os
+from dotenv import load_dotenv
+from judini.agent import Agent
+load_dotenv()
 
-api_key= "JUDINI_API_KEY"
-agent_id= "JUDINI_AGENT_ID"
+api_key= os.getenv("JUDINI_API_KEY")
+agent_id= os.getenv("JUDINI_AGENT_ID")
 
 agent = Agent(api_key, agent_id)
 
-prompt = 'Quien es el presidente de Chile?'
+prompt = 'Hola, cómo estás?'
 response = agent.completion(prompt)
 print(response) 
