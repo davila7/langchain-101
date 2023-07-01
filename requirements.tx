@@ -4,6 +4,7 @@ openai
 google-api-python-client # Google API
 google-search-results # SerpAPI
 youtube-transcript-api
+google-search-results
 chromadb
 tiktoken
 faiss-cpu
@@ -13,3 +14,4 @@ streamlit_chat
 chainlit
 git+https://github.com/openai/whisper.git
 judini
+duckduckgo-search

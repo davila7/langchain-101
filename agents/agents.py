@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from langchain.agents import load_tools
 from langchain.agents import initialize_agent
 from langchain.llms import OpenAI
-import os
 
 # cargamos openai api key
 load_dotenv()
@@ -23,6 +22,6 @@ tools = load_tools(["serpapi"], llm=llm)
 agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
 
 # ejecutamos el agente
-print(agent.run("Why was a letter signed to stop the development of LLM models like GPT-4 for 6 months?"))
+print(agent.run("quien ganó la copa mundial de francia 98?"))
 
 
