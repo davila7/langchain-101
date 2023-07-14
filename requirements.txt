@@ -10,8 +10,13 @@ tiktoken
 faiss-cpu
 wikipedia
 cohere
+sendgrid
+pywhatkit
 streamlit_chat
+wolframalpha
+pyowm
 chainlit
 git+https://github.com/openai/whisper.git
 judini
 duckduckgo-search
+arxiv

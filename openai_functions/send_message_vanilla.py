@@ -56,7 +56,7 @@ test1 = "TEST_EMAIL"
 test2 = "TEST_WHASTAPP"
 def run_conversation():
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model="gpt-3.5-turbo-16k-0613",
         messages=[
             {"role": "user", "content": test2}],
         functions=[
