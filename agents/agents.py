@@ -1,12 +1,14 @@
 # pip install google-search-results
 import streamlit as st
 from dotenv import load_dotenv
-from langchain.agents import load_tools, AgentType, initialize_agent, Tool
+from langchain.agents import load_tools, AgentType, initialize_agent, Tool, get_all_tool_names
 from langchain import OpenAI, Wikipedia
 from langchain.chat_models import ChatOpenAI
 from langchain.agents.react.base import DocstoreExplorer
 from langchain.memory import ConversationBufferMemory
 from langchain.utilities import SerpAPIWrapper
+from langchain.callbacks import StreamlitCallbackHandler
+from langchain.agents import create_csv_agent
 import sys
 import io
 import re
@@ -19,7 +21,9 @@ def capture_and_display_output(func: Callable[..., Any], *args, **kwargs) -> Any
     sys.stdout = output_catcher = io.StringIO()
 
     # Ejecutamos la función dada y capturamos su salida
-    response = func(*args, **kwargs)
+    # response = func(*args, **kwargs)
+    st_callback = StreamlitCallbackHandler(st.container(), max_thought_containers=100, expand_new_thoughts=True, collapse_completed_thoughts=False)
+    response = func(*args, callbacks=[st_callback])
 
     # Restauramos la salida estándar a su valor original
     sys.stdout = original_stdout
@@ -30,7 +34,7 @@ def capture_and_display_output(func: Callable[..., Any], *args, **kwargs) -> Any
     lines = cleaned_text.split('\n')
     
     # Mostramos el texto limpiado en Streamlit como código
-    with st.expander("Verbose", expanded=True):
+    with st.expander("Verbose", expanded=False):
         for line in lines:
             st.markdown(line)
 
@@ -38,7 +42,7 @@ def capture_and_display_output(func: Callable[..., Any], *args, **kwargs) -> Any
 
 docstore = DocstoreExplorer(Wikipedia())
 agents = []
-n_tools = ["serpapi", "llm-math", "arxiv", "wolfram-alpha", "human", "requests_all", "openweathermap-api"]
+n_tools = get_all_tool_names()
 docstore_tools = ["search", "lookup"]
 conversational_tools = ['current_search']
 self_ask_tools = ['intermediate_answer']
@@ -154,7 +158,7 @@ def main():
         with st.spinner("Loading"):
 
             if chat_agent:
-                llm = ChatOpenAI(temperature=0, model="gpt-4-0613")
+                llm = ChatOpenAI(model="gpt-4-0613", temperature=0)
             else:
                 llm = OpenAI(temperature=0)
 

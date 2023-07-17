@@ -12,6 +12,7 @@ wikipedia
 cohere
 sendgrid
 pywhatkit
+sqlalchemy
 streamlit_chat
 wolframalpha
 pyowm
