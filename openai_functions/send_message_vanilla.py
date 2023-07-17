@@ -5,6 +5,7 @@ import json
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import pywhatkit as pwk
+import streamlit as st
 from dotenv import load_dotenv
 import datetime
 
@@ -20,7 +21,7 @@ def send_whatsapp(person, message):
     # sending message in Whatsapp in India so using Indian dial code (+91)
     if(number != ''):
         now = datetime.datetime.now()
-        minutes = now.minute+2
+        minutes = now.minute+1
         print(minutes)
         pwk.sendwhatmsg(number, message, now.hour, minutes)
     
@@ -30,35 +31,30 @@ def send_email(email, subject, body):
 
     #try:
     
-
+    if(subject == ''):
+            subject = 'GPT Email'
     message = Mail(
         # add the email connected to your sendgrid code here
-        from_email='SENDGRID_EMAIL',
+        from_email=os.getenv("SENDGRID_EMAIL"),
         to_emails=email,
         subject=subject,
         html_content=body
     )    
+    st.write(message)
     sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
     response = sg.send(message)
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
+    st.write(response)
 
     # except Exception as e:
     #     print(f"An error occurred: {str(e)}")
 
 
-# you will need to set your openai api key
-# you can do so with an .env file or on the terminal entering the following command:
-# export OPENAI_API_KEY=""
 openai.api_key = os.getenv("OPENAI_API_KEY")
-test1 = "TEST_EMAIL"
-test2 = "TEST_WHASTAPP"
-def run_conversation():
+def run_conversation(prompt):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k-0613",
         messages=[
-            {"role": "user", "content": test2}],
+            {"role": "user", "content": prompt}],
         functions=[
             {
                 "name": "send_email",
@@ -94,7 +90,7 @@ def run_conversation():
     )
 
     message = response["choices"][0]["message"]
-    print('message: ', message)
+    st.write(message)
 
     # Step 2, check if the model wants to call a function
     if message.get("function_call"):
@@ -128,4 +124,21 @@ def run_conversation():
 
             print(function_response)
 
-print(run_conversation())
+def main():
+    st.set_page_config(page_title="Langchain Agent AI", page_icon="🤖", layout="wide")
+    st.title("Try OpenAI Function Callings 🦜")
+    st.write(send_email)
+    st.write(send_whatsapp)
+    form = st.form('AgentsTools')
+    question = form.text_input("Enter your question", "")
+    btn = form.form_submit_button("Run")
+
+    if btn:
+        st.markdown("### Response Agent AI")
+        with st.spinner("Loading"):
+               
+            run_conversation(question)
+
+
+if __name__ == "__main__":
+    main()
