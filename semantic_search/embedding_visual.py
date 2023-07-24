@@ -55,9 +55,5 @@ def main():
 
             st.write(project)
 
-            # st.write(map)
-
-
-
 if __name__ == "__main__":
     main()

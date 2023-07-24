@@ -13,7 +13,15 @@ cohere
 sendgrid
 pywhatkit
 sqlalchemy
+matplotlib
+scikit-learn
+scipy
+llamaapi
+plotly
 streamlit_chat
+docx2txt
+pypdf
+nomic
 wolframalpha
 pyowm
 chainlit

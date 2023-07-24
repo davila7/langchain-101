@@ -80,8 +80,7 @@ sql_tool = Tool(
     func=sql_chain.run,
     description="Useful for when you need to answer questions about stocks " \
                 "and their prices."
-    
-)
+) 
 
 tools = load_tools(
     ["llm-math"], 

@@ -48,14 +48,7 @@ def send_email(email, subject, body):
     # except Exception as e:
     #     print(f"An error occurred: {str(e)}")
 
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-def run_conversation(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k-0613",
-        messages=[
-            {"role": "user", "content": prompt}],
-        functions=[
+function_calling_json = [
             {
                 "name": "send_email",
                 "description": "Sends an email to the specified email address",
@@ -85,7 +78,16 @@ def run_conversation(prompt):
                     },
                 },
             }
-        ],
+        ]
+
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+def run_conversation(prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k-0613",
+        messages=[
+            {"role": "user", "content": prompt}],
+        functions=function_calling_json,
         function_call="auto",
     )
 
