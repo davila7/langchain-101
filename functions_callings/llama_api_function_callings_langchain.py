@@ -8,6 +8,7 @@ import streamlit as st
 import asyncio
 from pydantic import BaseModel
 from typing import List
+from langchain.experimental.llms import ChatLlamaAPI
 
 load_dotenv()
 
