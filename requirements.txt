@@ -5,6 +5,7 @@ google-api-python-client # Google API
 google-search-results # SerpAPI
 youtube-transcript-api
 google-search-results
+audiorecorder
 chromadb
 tiktoken
 faiss-cpu

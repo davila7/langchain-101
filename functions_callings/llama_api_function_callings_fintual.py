@@ -13,8 +13,17 @@ import matplotlib.pyplot as plt
 import datetime
 from langchain.agents import load_tools, initialize_agent
 from langchain.agents import AgentType
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
+from langchain.memory import ConversationBufferMemory
+from langchain.schema import (
+    HumanMessage,
+)
 from langchain.prompts import PromptTemplate
+from langchain.callbacks import StreamlitCallbackHandler
+import sys
+import re
+import io
+from typing import Callable, Any
 
 load_dotenv()
 
@@ -29,6 +38,30 @@ def get_or_create_eventloop():
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
+
+def capture_and_display_output(func: Callable[..., Any], *args, **kwargs) -> Any:
+    original_stdout = sys.stdout
+    sys.stdout = output_catcher = io.StringIO()
+
+    # Ejecutamos la función dada y capturamos su salida
+    # response = func(*args, **kwargs)
+    st_callback = StreamlitCallbackHandler(st.container(), max_thought_containers=100, expand_new_thoughts=True, collapse_completed_thoughts=False)
+    response = func(*args, callbacks=[st_callback])
+
+    # Restauramos la salida estándar a su valor original
+    sys.stdout = original_stdout
+
+    # Limpiamos la salida capturada
+    output_text = output_catcher.getvalue()
+    cleaned_text = re.sub(r'\x1b\[[0-9;-]*[mK]', '', output_text)
+    lines = cleaned_text.split('\n')
+    
+    # Mostramos el texto limpiado en Streamlit como código
+    # with st.expander("Verbose", expanded=False):
+    #     for line in lines:
+    #         st.markdown(line)
+
+    return response
 
 class FunctionCallArguments(BaseModel):
     fondo_name: str
@@ -64,7 +97,7 @@ def api_fintual(fondo, from_date, to_date):
 
     response = requests.get(url)
     json_response = response.json()
-    st.write(json_response)
+    #st.write(json_response)
 
     dates = [item["attributes"]["date"] for item in json_response["data"]]
     prices = [item["attributes"]["price"] for item in json_response["data"]]
@@ -80,9 +113,6 @@ def api_fintual(fondo, from_date, to_date):
     st.pyplot(plt)
 
     # luego de pintar los datos vamos a hacer que el modelo revise y entregue una conclusion de los datos obtenidos
-    llm = OpenAI(temperature=0)
-    tools = load_tools(["llm-math"], llm=llm)
-    agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
     prompt = PromptTemplate(
         input_variables=["fondo", "dates", "prices"],
         template='''
@@ -95,8 +125,14 @@ def api_fintual(fondo, from_date, to_date):
             Entrega una conclusión de cómo se ha ido comportando el fondo y un consejo al usuario de si debe seguir invirtiendo o retirar fondos
             ''',
     )
-    response_agent = agent.run(prompt.format(fondo=fondo, dates=dates, prices=prices))
-    st.info(response_agent)
+
+    prompt_agent = prompt.format(fondo=fondo, dates=dates, prices=prices)
+    chat_model = ChatOpenAI(model="gpt-4",temperature=0)
+    tools = load_tools(["llm-math"], llm=chat_model)
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+    agent = initialize_agent(tools, chat_model, agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, verbose=True, memory=memory)
+    st.info(capture_and_display_output(agent.run, prompt_agent))
+    
 
 
 
@@ -137,23 +173,23 @@ def run_conversation(prompt):
     ],
     "functions": function_calling_json,
     "stream": False,
-    "function_call": "auto"
+    "function_call": "get_fondo_data"
     }
 
     # Make your request and handle the response
     response = llama.run(api_request_json)
     message = response.json()
-    st.write(message)
+    #st.write(message)
 
     # Step 2, check if the model wants to call a function
     if message['choices'][0]['message']['function_call']:
         function_name = message['choices'][0]['message']['function_call']["name"]
-        st.write(function_name)
+        #st.write(function_name)
         if(function_name == 'get_fondo_data'):
             # Access the arguments
             model = ChoiceList(**message)
             arguments = model.choices[0].message.function_call.arguments
-            st.write(arguments)
+            #st.write(arguments)
 
             # Step 3, call the function
             function_response = api_fintual(
@@ -164,14 +200,15 @@ def run_conversation(prompt):
 
 def main():
     st.set_page_config(page_title="Llama 2 API Function Callings Fintual", page_icon="🤖", layout="wide")
-    st.title("Llama 2 API Function Callings 🦙 Fintual")
+    st.title("Fake Fintual Copiloto")
+    st.subheader('Llama 2 + Functions Callings + GPT-4 + Langchain')
     st.write('Fondos:')
-    st.write('Very Conservative Streep: casi pura renta fija. id: 15077')
-    st.write('Conservative Clooney: principalmente renta fija. id: 188')
-    st.write('Moderate Pit: la justa mezcla de renta fija y ETFs accionarios. id: 187')
-    st.write('Risky Norris: casi solamente ETFs accionarios. id: 186')
+    st.write('Very Conservative Streep: casi pura renta fija')
+    st.write('Conservative Clooney: principalmente renta fija')
+    st.write('Moderate Pit: la justa mezcla de renta fija y ETFs accionarios')
+    st.write('Risky Norris: casi solamente ETFs accionarios')
     form = st.form('AgentsTools')
-    question = form.text_input("Instruction", "")
+    question = form.text_input("Pregunta por un fonde en un rango de fechas", "")
     btn = form.form_submit_button("Run")
 
     if btn:
