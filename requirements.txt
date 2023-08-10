@@ -5,6 +5,8 @@ google-api-python-client # Google API
 google-search-results # SerpAPI
 youtube-transcript-api
 google-search-results
+google-cloud-aiplatform
+anthropic
 audiorecorder
 chromadb
 tiktoken

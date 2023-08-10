@@ -133,12 +133,6 @@ def api_fintual(fondo, from_date, to_date):
     agent = initialize_agent(tools, chat_model, agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION, verbose=True, memory=memory)
     st.info(capture_and_display_output(agent.run, prompt_agent))
     
-
-
-
-    
-
-
 # Define your API request
 def run_conversation(prompt):
     # Initialize the llamaapi with your api_token

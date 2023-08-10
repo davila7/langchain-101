@@ -3,7 +3,8 @@ import streamlit as st
 from dotenv import load_dotenv
 from langchain.agents import load_tools, AgentType, initialize_agent, Tool, get_all_tool_names
 from langchain import OpenAI, Wikipedia
-from langchain.chat_models import ChatOpenAI
+from langchain.chat_models import ChatOpenAI, ChatVertexAI, ChatGooglePalm, ChatAnthropic
+from langchain.llms import VertexAI, GooglePalm, Cohere, AzureOpenAI, Anthropic
 from langchain.agents.react.base import DocstoreExplorer
 from langchain.memory import ConversationBufferMemory
 from langchain.utilities import SerpAPIWrapper
@@ -54,6 +55,51 @@ def main():
     memory = None
     st.set_page_config(page_title="Langchain Agent AI", page_icon="🤖", layout="wide")
     st.title("Try Langchain Agents 🦜")
+    st.write("If you want to work with these agents in production, use [Judini.ai](https://judini.ai)")
+    # select provider (openai, vertexai, azure, makersuite, cohere)
+    options_provider = st.selectbox(
+    'Select Provider',
+    ('openai', 'makersuite', 'vertexai', 'azure', 'anthropic', 'cohere'))
+
+    # dependiendo del provider seleccionado, se cargan los modelos disponibles
+    # openai: davinci, gpt-3.5-tubo, gpt-4
+    # makersuite: text-bison-001, codebison-001, chatbison-001
+    # vertexai: text-bison-001, codebison-001, chatbison-001
+    # azure: davinci, gpt-3.5-tubo, gpt-4
+    # cohere: coral
+
+    if options_provider == 'openai':
+        options_model = st.selectbox(
+        'Select Model',
+        ('gpt-4-0613', 'gpt-3.5-turbo-0613', 'text-davinci-003'))
+
+    if options_provider == 'makersuite':
+        options_model = st.selectbox(
+        'Select Model',
+        ('chat-bison-001', 'text-bison-001'))
+    
+    if options_provider == 'vertexai':
+        options_model = st.selectbox(
+        'Select Model',
+        ('chat-bison@001', 'codechat-bison@001', 'text-bison@001', 'code-bison@001'))
+
+    if options_provider == 'azure':
+        options_model = st.selectbox(
+        'Select Model',
+        ('gpt-4-0613', 'gpt-3.5-turbo-0613', 'text-davinci-003'))
+
+    if options_provider == 'cohere':
+        options_model = st.selectbox(
+        'Select Model',
+        ('command-large-001', 'coral'))
+
+    if options_provider == 'anthropic':
+        options_model = st.selectbox(
+        'Select Model',
+        ('claude-v1.3', 'claude-2'))
+        
+    st.write('Provider: '+options_provider+" Model: "+options_model)
+
     for key in AgentType:
         agents.append(key.value)
         
@@ -157,12 +203,25 @@ def main():
         st.markdown("### Response Agent AI")
         with st.spinner("Loading"):
 
-            if chat_agent:
-                llm = ChatOpenAI(model="gpt-4-0613", temperature=0)
-            else:
-                llm = OpenAI(temperature=0)
+            # crear el llm segun lo seleccionado en el provider y el model
+            if options_provider == 'openai':
+                if chat_agent:
+                    llm = ChatOpenAI(model=options_model, temperature=0)
+                else:
+                    llm = OpenAI(model=options_model, temperature=0)
+            
+            if options_provider == 'vertexai':
+                if chat_agent:
+                    llm = ChatVertexAI(model=options_model, temperature=0)
+                else:
+                    llm = VertexAI(model=options_model, temperature=0)
 
+            if options_provider == 'cohere':
+                llm = Cohere(model=options_model, temperature=0)
 
+            if options_provider == 'anthropic':
+                llm = ChatAnthropic(model=options_model, temperature=0)
+            
             if load_tools_boolean:
                 final_tools = load_tools(tools_selected, llm)
             else:
@@ -170,7 +229,6 @@ def main():
 
             
             agent = initialize_agent(final_tools, llm, agent=options_agent, verbose=True, memory=memory)
-            
             
             st.info(capture_and_display_output(agent.run, question))
 
