@@ -1,6 +1,7 @@
 python-dotenv
 langchain
 openai
+cohere
 google-api-python-client # Google API
 google-search-results # SerpAPI
 youtube-transcript-api
@@ -8,5 +9,4 @@ chromadb
 tiktoken
 faiss-cpu
 wikipedia
-cohere
 streamlit_chat
