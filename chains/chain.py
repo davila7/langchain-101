@@ -13,8 +13,6 @@ En este archivo creamos un template y luego ejecutamos una simple cadena con LLM
 
 # cargamos openai api key
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # cargamos el modelo
 llm = OpenAI(temperature=0.9)
