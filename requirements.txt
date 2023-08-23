@@ -32,3 +32,9 @@ git+https://github.com/openai/whisper.git
 judini
 duckduckgo-search
 arxiv
+googleapis-common-protos
+google-auth-httplib2
+google-auth
+google-api-python-client
+google-api-core
+html2text
