@@ -5,7 +5,6 @@ import os
 import requests
 import json
 from dotenv import load_dotenv
-from judini.agent import Agent
 load_dotenv()
 
 """

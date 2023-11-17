@@ -59,7 +59,7 @@ def main():
     # select provider (openai, vertexai, azure, makersuite, cohere)
     options_provider = st.selectbox(
     'Select Provider',
-    ('openai', 'makersuite', 'vertexai', 'azure', 'anthropic', 'cohere'))
+    ('openai', 'codegpt', 'makersuite', 'vertexai', 'azure', 'anthropic', 'cohere'))
 
     # dependiendo del provider seleccionado, se cargan los modelos disponibles
     # openai: davinci, gpt-3.5-tubo, gpt-4
@@ -68,10 +68,17 @@ def main():
     # azure: davinci, gpt-3.5-tubo, gpt-4
     # cohere: coral
 
+    options_model = ''
+
+    if options_provider == 'codegpt':
+        options_model = st.selectbox(
+        'Select Agent',
+        ('DaniGPT', 'MessiGPT', 'LLM Expert'))
+
     if options_provider == 'openai':
         options_model = st.selectbox(
         'Select Model',
-        ('gpt-4-0613', 'gpt-3.5-turbo-0613', 'text-davinci-003'))
+        ('gpt-4', 'gpt-3.5-turbo-0613', 'text-davinci-003'))
 
     if options_provider == 'makersuite':
         options_model = st.selectbox(
@@ -86,7 +93,7 @@ def main():
     if options_provider == 'azure':
         options_model = st.selectbox(
         'Select Model',
-        ('gpt-4-0613', 'gpt-3.5-turbo-0613', 'text-davinci-003'))
+        ('gpt-4', 'gpt-3.5-turbo-0613', 'text-davinci-003'))
 
     if options_provider == 'cohere':
         options_model = st.selectbox(
@@ -203,7 +210,19 @@ def main():
         st.markdown("### Response Agent AI")
         with st.spinner("Loading"):
 
+
+
             # crear el llm segun lo seleccionado en el provider y el model
+
+            if options_provider == 'codegpt':
+                agent_id = "770c40ed-2178-445d-8b91-8cfa87ccaf80"
+                codegpt_api_base = "https://api.codegpt.co/v1"
+                codegpt_api_key = "63e52832-331a-4999-bce4-02dd0d04294b"
+                llm = ChatOpenAI(openai_api_key=codegpt_api_key,
+                                openai_api_base=codegpt_api_base,
+                                model=agent_id)
+                    
+
             if options_provider == 'openai':
                 if chat_agent:
                     llm = ChatOpenAI(model=options_model, temperature=0)
@@ -229,7 +248,6 @@ def main():
 
             
             agent = initialize_agent(final_tools, llm, agent=options_agent, verbose=True, memory=memory)
-            
             st.info(capture_and_display_output(agent.run, question))
 
 if __name__ == "__main__":
