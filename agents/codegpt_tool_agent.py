@@ -22,7 +22,9 @@ load_dotenv()
 
 # Retrieve API key and agent ID from environment variables
 codegpt_api_key= os.getenv("CODEGPT_API_KEY")
-code_gpt_agent_id= os.getenv("CODEGPT_AGENT_ID")
+tool_agent_id_1= os.getenv("TOOL_AGENT_ID_1")
+tool_agent_id_2= os.getenv("TOOL_AGENT_ID_2")
+tool_agent_id_3= os.getenv("TOOL_AGENT_ID_3")
 
 # Set API base URL
 codegpt_api_base = "https://api.codegpt.co/v1"
@@ -37,20 +39,44 @@ execute_task_prompt = PromptTemplate(
     input_variables=["input"],
 )
 
-# Create a ChatOpenAI object with the retrieved API key, API base URL, and agent ID
-llm = ChatOpenAI(openai_api_key=codegpt_api_key,
+# Create an object with the retrieved API key, API base URL, and agent ID
+llm_tools_1 = ChatOpenAI(openai_api_key=codegpt_api_key,
                 openai_api_base=codegpt_api_base,
-                model=code_gpt_agent_id, verbose=True)
-llm_chain = LLMChain(llm=llm, prompt=execute_task_prompt)
+                model=tool_agent_id_1, verbose=True)
+llm_chain_1 = LLMChain(llm=llm_tools_1, prompt=execute_task_prompt)
 
-danigpt_tool = Tool(
-    name='DaniGPT',
-    func=llm_chain.run,
-    description="Useful for when you need to answer questions about Judini"
+# Create an object with the retrieved API key, API base URL, and agent ID
+llm_tools_2 = ChatOpenAI(openai_api_key=codegpt_api_key,
+                openai_api_base=codegpt_api_base,
+                model=tool_agent_id_2, verbose=True)
+llm_chain_2 = LLMChain(llm=llm_tools_2, prompt=execute_task_prompt)
+
+# Create an object with the retrieved API key, API base URL, and agent ID
+llm_tools_3 = ChatOpenAI(openai_api_key=codegpt_api_key,
+                openai_api_base=codegpt_api_base,
+                model=tool_agent_id_3, verbose=True)
+llm_chain_3 = LLMChain(llm=llm_tools_3, prompt=execute_task_prompt)
+
+tree_of_thought_tool = Tool(
+    name='Tree_Of_Thought_Expert',
+    func=llm_chain_1.run,
+    description="Useful for when you need to answer questions about the paper 'Tree_Of_Thought'"
+) 
+
+lost_in_the_middle_tool = Tool(
+    name='Lost_in_the_Middle_Expert',
+    func=llm_chain_2.run,
+    description="Useful for when you need to answer questions about the paper 'Lost in the middle'"
+) 
+
+prompting_with_pseudo_tool = Tool(
+    name='Prompting_with_Pseudo_code',
+    func=llm_chain_3.run,
+    description="Useful for when you need to answer questions about the paper 'Prompting with Pseudo-code'"
 ) 
 
 # agregamos todos los tools al array
-tools = [danigpt_tool]
+tools = [tree_of_thought_tool, lost_in_the_middle_tool, prompting_with_pseudo_tool]
 
 #memory
 memory = ConversationBufferWindowMemory(
@@ -88,7 +114,7 @@ def capture_and_display_output(func: Callable[..., Any], *args, **kwargs) -> Any
 
 def main():
     st.set_page_config(page_title="Langchain Agent AI", page_icon="🤖", layout="wide")
-    st.title("Try CodeGPT Agents as a Tools with Langchain and ReAct 🦜")
+    st.title("Use CodeGPT Agents as a tool with a ReAct Agent")
     form = st.form('AgentsTools')
     question = form.text_input("Enter your question", "")
     btn = form.form_submit_button("Run")
